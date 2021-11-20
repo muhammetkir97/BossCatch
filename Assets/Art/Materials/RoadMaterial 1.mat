@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RoadMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: f3e2218eea3797849be3c52b71dab9c3,
+  m_Name: RoadMaterial 1
+  m_Shader: {fileID: -6465566751694194690, guid: 8a974c0338222b748a8931c2c975d974,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -66,8 +66,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - X_Axis: 1
-    - Y_Axis: 0.552
+    - Vector1_294084E0: -7.67
+    - X_Axis: 0
+    - Y_Axis: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Globals 
 {
-    private static float playerSpeed = 80;
+    private static float playerSpeed = 0;
     private static float sideSpeed = 20;
     private static float enemySpeedRatio = 0.7f;
     private static float trailerSmooth = 4;
