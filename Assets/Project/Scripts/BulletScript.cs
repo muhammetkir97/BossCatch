@@ -6,6 +6,8 @@ public class BulletScript : MonoBehaviour
 {
     [SerializeField] private ParticleSystem explosionParticle;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private GameObject bulletTrail;
     private bool isExploded = false;
     void Start()
     {
@@ -26,6 +28,9 @@ public class BulletScript : MonoBehaviour
             explosionParticle.Play();
             isExploded = true;
             rb.isKinematic = true;
+            meshRenderer.enabled = false;
+            bulletTrail.SetActive(false);
+            Destroy(gameObject,3);
         }
 
         

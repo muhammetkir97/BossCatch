@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - X_Axis: 0
+    - X_Axis: 0.085
     - Y_Axis: 0
     - _InvFade: 3
     m_Colors:

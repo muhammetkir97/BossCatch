@@ -23,16 +23,29 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 forwardSpeed = Vector3.right * Globals.GetPlayerSpeed() * Globals.GetEnemySpeedRatio() * Time.deltaTime;
-        transform.Translate(forwardSpeed);
-
-        Shoot();
+        Movement();
+        PlayerDetection();
     }
 
-    void LateUpdate()
+    void Movement()
     {
-
+        Vector3 forwardSpeed = -Vector3.right * Globals.GetEnemySpeed() * Time.deltaTime;
+        transform.Translate(forwardSpeed);
     }
+
+    void PlayerDetection()
+    {
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position,-transform.right, out hit, 200))
+        {
+            if(hit.transform.name == "Player")
+            {
+                Shoot();
+            }
+            
+        }
+    }
+
 
 
 

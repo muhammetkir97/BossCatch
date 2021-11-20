@@ -9,7 +9,6 @@ public class GameSystem : MonoBehaviour
     [SerializeField] private GameObject enemyObject;
     private Vector3 lastEnemyPosition = Vector3.zero;
 
-
     [SerializeField] private GameObject playerObject;
 
 
@@ -20,7 +19,7 @@ public class GameSystem : MonoBehaviour
 
     void Start()
     {
-        
+        InvokeRepeating("SendEnemy",5f,5f);
     }
 
     // Update is called once per frame
@@ -31,22 +30,18 @@ public class GameSystem : MonoBehaviour
 
     void FixedUpdate()
     {
-        CheckEnemy();
+
     }
 
-    void CheckEnemy()
+    void SendEnemy()
     {
-        Vector3 detectPosition = new Vector3(lastEnemyPosition.x + Globals.GetEnemySpawnDistance(), 0, 0);
 
-        if(playerObject.transform.position.magnitude > detectPosition.magnitude)
-        {
-            Vector3 spawnPosition = playerObject.transform.position;
-            spawnPosition.x += Globals.GetEnemySpawnDistance();
-            GameObject enemy = Instantiate(enemyObject, spawnPosition, Quaternion.identity);
-            lastEnemyPosition = enemy.transform.position;
+        Vector3 spawnPosition = playerObject.transform.position;
+        spawnPosition.x += Globals.GetEnemySpawnDistance();
+        spawnPosition.z = Random.Range(-7f,7f);
+        GameObject enemy = Instantiate(enemyObject, spawnPosition, Quaternion.identity);
+        lastEnemyPosition = enemy.transform.position;
 
-
-        }
     }
 
     

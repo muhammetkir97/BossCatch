@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     private float lastTrailerPos;
     private float targetTrailerPos;
 
+    private float lastTrailerRot;
+    private float targetTrailerRot;
+
     private float lastVehiclePos;
     private float targetVehiclePos;
 
@@ -21,13 +24,12 @@ public class PlayerController : MonoBehaviour
 
     private int totalBullet = 0;
 
-    private Transform gun;
-    private Transform shootPosition;
-    private GameObject bulletObject;
-    private ParticleSystem muzzleParticle;
+    private Transform gunParent;
     private bool shootEnabled = true;
 
     private Vector3 lastSideSpeed = Vector3.zero;
+
+    private int totalGun = 5;
 
 
     void Awake()
@@ -37,10 +39,8 @@ public class PlayerController : MonoBehaviour
         bulletStackParent = trailer.GetChild(0);
         bulletStackCount = bulletStackParent.childCount * 6;
 
-        gun = vehicle.GetChild(1);
-        shootPosition = gun.GetChild(0).GetChild(0);
-        bulletObject = gun.GetChild(1).gameObject;
-        muzzleParticle = shootPosition.GetChild(0).GetComponent<ParticleSystem>();
+        gunParent = vehicle.GetChild(1);
+
     }
 
 
@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         totalBullet = 40;
         SetBulletStack();
+        SetGun();
     }
 
     // Update is called once per frame
@@ -82,7 +83,6 @@ public class PlayerController : MonoBehaviour
             bulletStackParent.GetChild(i).localPosition = new Vector3(i * -0.5f * Mathf.Abs(lastStackBend),i * 0.7f,-i * lastStackBend / 3f);
             bulletStackParent.GetChild(i).localRotation = Quaternion.Euler(i * lastStackBend * -10,0,0);
         }
-
     }
 
     void Shoot()
@@ -91,11 +91,12 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(EnableShooting());
             shootEnabled = false;
-            muzzleParticle.Play();
-            GameObject cloneBullet = Instantiate(bulletObject,shootPosition.position,Quaternion.identity);
-            Rigidbody rb = cloneBullet.GetComponent<Rigidbody>();
-            cloneBullet.SetActive(true);
-            rb.AddForce(Vector3.right * 150,ForceMode.Impulse);
+
+            foreach(Transform tf in gunParent.GetChild(totalGun-1))
+            {
+                tf.GetComponent<GunController>().ShootGun();
+            }
+
             UseBullet();
         }
     }
@@ -110,7 +111,7 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         Vector3 forwardSpeed = Vector3.right * Globals.GetPlayerSpeed() * 1 * Time.deltaTime;
-        Vector3 sideSpeed = Vector3.forward * Globals.GetPlayerSideSpeed() * GetMovementInputVector().x * Time.deltaTime;
+        Vector3 sideSpeed = Vector3.forward * Globals.GetPlayerSideSpeed() * -GetMovementInputVector().x * Time.deltaTime;
         Vector3 smoothSideSpeed = Vector3.Lerp(lastSideSpeed, sideSpeed,Time.deltaTime * 5f);
         lastSideSpeed = smoothSideSpeed;
         transform.Translate(forwardSpeed + smoothSideSpeed);
@@ -123,11 +124,22 @@ public class PlayerController : MonoBehaviour
 
         targetVehiclePos = Mathf.Lerp(targetVehiclePos, lastVehiclePos, Time.deltaTime * Globals.GetVehicleSmooth());
 
-        trailer.localRotation = Quaternion.Euler(0,-(lastTrailerPos - targetTrailerPos) * 5,0);
+        lastTrailerRot = GetMovementInputVector().x;
+        targetTrailerRot = Mathf.Lerp(targetTrailerRot, lastTrailerRot,Time.deltaTime * 3);
+
+
+
+        trailer.localRotation = Quaternion.Euler(-(lastTrailerRot - targetTrailerRot) * -15,-(lastTrailerPos - targetTrailerPos) * 5,0);
         vehicle.localRotation = Quaternion.Euler(0, -(lastVehiclePos - targetVehiclePos) * 13, 0);
 
+    
+
         RaycastHit hit;
-        if(Physics.Raycast(transform.position,transform.right, out hit, 500))
+
+        int layerMask = 1 << 8;
+        layerMask = ~layerMask;
+
+        if(Physics.Raycast(transform.position,transform.right, out hit, 500,layerMask))
         {
             Shoot();
         }
@@ -168,6 +180,18 @@ public class PlayerController : MonoBehaviour
                 bulletStackParent.GetChild((i - (i % 6)) / 6).GetChild(i % 6).gameObject.SetActive(i<availableStack);
             }
             lastBulletStackCount = availableStack;
+        }
+    }
+
+
+    void SetGun()
+    {
+        for(int i=0; i< gunParent.childCount; i++)
+        {
+            gunParent.GetChild(i).gameObject.SetActive((i + 1)==totalGun);
+
+
+
         }
     }
 }

@@ -7,6 +7,7 @@ public static class Globals
     private static float playerSpeed = 0;
     private static float sideSpeed = 20;
     private static float enemySpeedRatio = 0.7f;
+    private static float enemySpeed = 15f;
     private static float trailerSmooth = 4;
     private static float vehicleSmooth = 15;
     private static float roadCreationLimit = 500;
@@ -58,5 +59,10 @@ public static class Globals
     public static float GetEnemyShootDelay()
     {
         return enemyShootDelay;
+    }
+
+    public static float GetEnemySpeed()
+    {
+        return enemySpeed;
     }
 }

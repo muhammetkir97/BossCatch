@@ -28,6 +28,8 @@ public class MapCreator : MonoBehaviour
             Vector3 roadPos = new Vector3(lastRoadPosition,0,0);
 
             GameObject clone = Instantiate(roadObject, roadPos, roadObject.transform.rotation);
+            clone.transform.SetParent(transform);
+            clone.transform.localPosition = roadPos;
 
             lastRoadPosition += roadLength;
         }    
