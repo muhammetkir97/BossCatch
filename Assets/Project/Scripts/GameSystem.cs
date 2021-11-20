@@ -19,7 +19,7 @@ public class GameSystem : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("SendEnemy",5f,5f);
+        InvokeRepeating("SendEnemy",0f,5f);
     }
 
     // Update is called once per frame
