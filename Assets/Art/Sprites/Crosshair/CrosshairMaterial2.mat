@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CrosshairMaterial2
-  m_Shader: {fileID: -6465566751694194690, guid: 0b8db94e0be5c3e428894b6d05ed7a1f,
+  m_Shader: {fileID: -6465566751694194690, guid: 3ba6cba9b4a85de46a1ea1b8e2ea8744,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

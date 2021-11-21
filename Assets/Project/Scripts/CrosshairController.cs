@@ -24,7 +24,7 @@ public class CrosshairController : MonoBehaviour
     {
         counter += sign * 0.05f;
 
-        transform.Rotate(Vector3.right,Space.Self);
+       
         transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 1.2f,counter);
 
         if(counter > 1)

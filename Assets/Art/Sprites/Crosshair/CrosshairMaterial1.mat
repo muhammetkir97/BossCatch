@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CrosshairMaterial1
-  m_Shader: {fileID: -6465566751694194690, guid: 0b8db94e0be5c3e428894b6d05ed7a1f,
+  m_Shader: {fileID: -6465566751694194690, guid: 3ba6cba9b4a85de46a1ea1b8e2ea8744,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_CC0E1C:
-        m_Texture: {fileID: 2800000, guid: efc517059c4c40b459b5cc1dbdd6c128, type: 3}
+        m_Texture: {fileID: 2800000, guid: 84689e58a18525e43ae7ebdfc2930ee7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -53,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - X_Axis: 0.085
+    - X_Axis: 0.082
     - Y_Axis: 0
     - _AlphaClip: 0
     - _Blend: 0
