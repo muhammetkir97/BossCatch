@@ -61,9 +61,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.C)) GainBullet();
+        if(Input.GetKey(KeyCode.C)) GainBullet(1);
 
-        if(Input.GetKey(KeyCode.B)) UseBullet();
+        if(Input.GetKey(KeyCode.B)) UseBullet(1);
 
         if(Input.GetKey(KeyCode.X)) Shoot();
 
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
     void Shoot()
     {
-        if(shootEnabled)
+        if(shootEnabled && totalBullet > 0)
         {
             StartCoroutine(EnableShooting());
             shootEnabled = false;
@@ -104,6 +104,7 @@ public class PlayerController : MonoBehaviour
         for(int i=0; i< gunParent.GetChild(totalGun - 1).childCount; i++)
         {
             gunList.Add(gunParent.GetChild(totalGun - 1).GetChild(i).GetComponent<GunController>());
+            
         }
 
         switch(gunList.Count)
@@ -140,7 +141,8 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        UseBullet();
+        UseBullet(gunList.Count);
+        
     }
 
     IEnumerator EnableShooting()
@@ -186,6 +188,9 @@ public class PlayerController : MonoBehaviour
             Shoot();
         }
 
+
+        gunParent.rotation = Quaternion.Euler(0,0,0);
+
     }
 
     Vector2 GetMovementInputVector()
@@ -196,15 +201,15 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void GainBullet()
+    void GainBullet(int count)
     {
-        totalBullet++;
+        totalBullet += count;
         SetBulletStack();
     }
 
-    void UseBullet()
+    void UseBullet(int count)
     {   
-        totalBullet--;
+        totalBullet -= count;
         SetBulletStack();
     }
 
@@ -231,9 +236,17 @@ public class PlayerController : MonoBehaviour
         for(int i=0; i< gunParent.childCount; i++)
         {
             gunParent.GetChild(i).gameObject.SetActive((i + 1)==totalGun);
-
-
-
         }
     }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if(col.transform.name.Contains("BulletBonus"))
+        {
+            GainBullet(4);
+            col.transform.GetComponent<BulletBonusController>().GetBonus(trailer);
+        }
+    }
+
+
 }

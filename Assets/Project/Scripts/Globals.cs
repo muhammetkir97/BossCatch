@@ -12,9 +12,13 @@ public static class Globals
     private static float vehicleSmooth = 15;
     private static float roadCreationLimit = 500;
     private static float enemySpawnDistance = 150;
-    private static float playerShootDelay = 0.2f;
+    private static float playerShootDelay = 0.5f;
     private static float enemyShootDelay = 0.8f;
     private static float curveSmooth = 0.2f;
+    private static int minBonusBullet = 2;
+    private static int maxBonusBullet = 6;
+    private static int enemyHealth = 3;
+    private static float enemySpawnRate = 3;
 
 
     public static float GetPlayerSpeed()
@@ -70,5 +74,25 @@ public static class Globals
     public static float GetCurveSmooth()
     {
         return curveSmooth;
+    }
+
+    public static int GetMinBonusBullet()
+    {
+        return minBonusBullet;
+    }
+
+    public static int GetMaxBonusBullet()
+    {
+        return maxBonusBullet;
+    }
+
+    public static int GetEnemyHealth()
+    {
+        return enemyHealth;
+    }
+
+    public static float GetEnemySpawnRate()
+    {
+        return enemySpawnRate;
     }
 }

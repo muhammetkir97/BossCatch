@@ -11,7 +11,7 @@ public class BulletScript : MonoBehaviour
     private bool isExploded = false;
     void Start()
     {
-        
+        Destroy(gameObject,5);
         
     }
 
@@ -30,7 +30,12 @@ public class BulletScript : MonoBehaviour
             rb.isKinematic = true;
             meshRenderer.enabled = false;
             bulletTrail.SetActive(false);
-            Destroy(gameObject,3);
+            Destroy(gameObject,0.7f);
+
+            if(col.transform.name.Contains("Enemy"))
+            {
+                col.transform.GetComponent<EnemyController>().TakeDamage();
+            }
         }
 
         

@@ -29,7 +29,7 @@ public class GunController : MonoBehaviour
         GameObject cloneBullet = Instantiate(bulletObject,shootPosition.position,Quaternion.identity);
         Rigidbody rb = cloneBullet.GetComponent<Rigidbody>();
         cloneBullet.SetActive(true);
-        rb.AddForce(cloneBullet.transform.right * 150,ForceMode.Impulse);
+        rb.AddForce(cloneBullet.transform.right * 100,ForceMode.Impulse);
     }
 
     IEnumerator ShootEffect()

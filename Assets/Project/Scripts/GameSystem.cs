@@ -10,6 +10,7 @@ public class GameSystem : MonoBehaviour
     private Vector3 lastEnemyPosition = Vector3.zero;
 
     [SerializeField] private GameObject playerObject;
+    [SerializeField] private PoolController bulletPool;
     List<Material> sceneMaterials;
 
     float curveX = 0;
@@ -25,6 +26,7 @@ public class GameSystem : MonoBehaviour
 
     void Start()
     {
+        bulletPool.InitPool();
         sceneMaterials = new List<Material>();
         List<Material> armat = new List<Material>();
         Renderer[] arrend = (Renderer[])Resources.FindObjectsOfTypeAll(typeof(Renderer));
@@ -49,8 +51,9 @@ public class GameSystem : MonoBehaviour
 
         SetCurve(0,0.3f);
         //Application.targetFrameRate = 30;
-        InvokeRepeating("SendEnemy",0f,5f);
+        InvokeRepeating("SendEnemy",0f,Globals.GetEnemySpawnRate());
         InvokeRepeating("SetRandomCurve",0,5f);
+        InvokeRepeating("SendBulletBonus",0,10);
     }
 
     // Update is called once per frame
@@ -94,6 +97,34 @@ public class GameSystem : MonoBehaviour
             mat.SetFloat("X_Axis",x);
             mat.SetFloat("Y_Axis",y);
         }
+    }
+
+
+    void SendBulletBonus()
+    {
+        
+        StartCoroutine(CreateBulletBonusDelay());
+ 
+    }
+
+    IEnumerator CreateBulletBonusDelay()
+    {
+        int bonusCount = Random.Range(Globals.GetMinBonusBullet(),Globals.GetMaxBonusBullet());
+        Debug.Log(bonusCount);
+
+        for(int i=0; i<bonusCount; i++)
+        {
+            Debug.Log(i);
+            GameObject bulletBonusClone = bulletPool.GetFromPool();
+            bulletBonusClone.transform.position = playerObject.transform.position + new Vector3(80 + (i *6),3,0);
+            bulletBonusClone.GetComponent<BulletBonusController>().Init(playerObject.transform.position,bulletPool);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public GameObject GetPlayerObject()
+    {
+        return playerObject;
     }
 
     

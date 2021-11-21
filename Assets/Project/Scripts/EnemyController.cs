@@ -7,9 +7,17 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject bulletObject;
     [SerializeField] private Transform shootPosition;
     [SerializeField] private ParticleSystem muzzleParticle;
-    private float healthValue;
+    [SerializeField] private GameObject crosshairObject;
+    [SerializeField] private GameObject explosionParticle;
+    private int healthValue;
+    private bool isDied = false;
     private bool shootEnabled = true;
+    private bool isFirstShoot = true;
 
+    void Awake()
+    {
+        healthValue = Globals.GetEnemyHealth();
+    }
     void Start()
     {
         
@@ -25,6 +33,7 @@ public class EnemyController : MonoBehaviour
     {
         Movement();
         PlayerDetection();
+        TargetDetection();
     }
 
     void Movement()
@@ -38,21 +47,24 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position,-transform.right, out hit, 200))
         {
+            /*
+            if(isFirstShoot)
+            {
+                isFirstShoot = false;
+                StartCoroutine(EnableShooting());
+            }
+            */
+
             if(hit.transform.name == "Player")
             {
                 Shoot();
             }
-            
         }
     }
 
-
-
-
-
     void Shoot()
     {
-        if(shootEnabled)
+        if(shootEnabled && !isDied)
         {
             StartCoroutine(EnableShooting());
             shootEnabled = false;
@@ -68,6 +80,27 @@ public class EnemyController : MonoBehaviour
     {
         yield return new WaitForSeconds(Globals.GetEnemyShootDelay());
         shootEnabled = true;
+    }
+
+    public void TakeDamage()
+    {
+        iTween.PunchScale(gameObject,Vector3.one * 0.3f,0.2f);
+        healthValue--;
+        if(healthValue <= 0 && !isDied) EnemyDie();
+    }
+
+    void EnemyDie()
+    {
+        isDied = true;
+        GameObject cloneParticle = Instantiate(explosionParticle,transform.position,Quaternion.identity);
+        cloneParticle.GetComponent<ParticleSystem>().Play();
+        iTween.ScaleTo(gameObject,Vector3.zero,0.3f);
+    }
+
+    void TargetDetection()
+    {
+        bool status = Mathf.Abs(transform.position.z - GameSystem.Instance.GetPlayerObject().transform.position.z) < 2f;
+        crosshairObject.SetActive(status);
     }
 
 }
