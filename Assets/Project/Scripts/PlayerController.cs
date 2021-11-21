@@ -80,8 +80,8 @@ public class PlayerController : MonoBehaviour
 
         for(int i=0; i<stackIndexCount; i++)
         {
-            bulletStackParent.GetChild(i).localPosition = new Vector3(i * -0.5f * Mathf.Abs(lastStackBend),i * 0.7f,-i * lastStackBend / 3f);
-            bulletStackParent.GetChild(i).localRotation = Quaternion.Euler(i * lastStackBend * -10,0,0);
+            bulletStackParent.GetChild(i).localPosition = new Vector3(i * -0.5f * Mathf.Abs(lastStackBend),i * 0.7f,i * lastStackBend / 3f);
+            bulletStackParent.GetChild(i).localRotation = Quaternion.Euler(i * lastStackBend * 10,0,0);
         }
     }
 
@@ -91,14 +91,56 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(EnableShooting());
             shootEnabled = false;
+            StartCoroutine(ShootDelay());
 
-            foreach(Transform tf in gunParent.GetChild(totalGun-1))
-            {
-                tf.GetComponent<GunController>().ShootGun();
-            }
-
-            UseBullet();
         }
+    }
+
+    IEnumerator ShootDelay()
+    {
+        float delayTime = 0.1f;
+        List<GunController> gunList = new List<GunController>();
+
+        for(int i=0; i< gunParent.GetChild(totalGun - 1).childCount; i++)
+        {
+            gunList.Add(gunParent.GetChild(totalGun - 1).GetChild(i).GetComponent<GunController>());
+        }
+
+        switch(gunList.Count)
+        {
+            case 1:
+                gunList[0].ShootGun();
+                break;
+            case 2:
+                gunList[0].ShootGun();
+                gunList[1].ShootGun();
+                break;
+            case 3:
+                gunList[0].ShootGun();
+                yield return new WaitForSeconds(delayTime);
+                gunList[1].ShootGun();
+                gunList[2].ShootGun();
+                break;
+            case 4:
+                gunList[0].ShootGun();
+                gunList[1].ShootGun();
+                yield return new WaitForSeconds(delayTime);
+                gunList[2].ShootGun();
+                gunList[3].ShootGun();
+                break;
+            case 5:
+                gunList[0].ShootGun();
+                yield return new WaitForSeconds(delayTime);
+                gunList[1].ShootGun();
+                gunList[2].ShootGun();
+                yield return new WaitForSeconds(delayTime);
+                gunList[3].ShootGun();
+                gunList[4].ShootGun();
+                break;
+
+        }
+
+        UseBullet();
     }
 
     IEnumerator EnableShooting()

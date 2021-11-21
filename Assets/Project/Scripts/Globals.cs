@@ -7,13 +7,14 @@ public static class Globals
     private static float playerSpeed = 0;
     private static float sideSpeed = 20;
     private static float enemySpeedRatio = 0.7f;
-    private static float enemySpeed = 15f;
+    private static float enemySpeed = 55f;
     private static float trailerSmooth = 4;
     private static float vehicleSmooth = 15;
     private static float roadCreationLimit = 500;
-    private static float enemySpawnDistance = 80;
+    private static float enemySpawnDistance = 150;
     private static float playerShootDelay = 0.2f;
     private static float enemyShootDelay = 0.8f;
+    private static float curveSmooth = 0.2f;
 
 
     public static float GetPlayerSpeed()
@@ -64,5 +65,10 @@ public static class Globals
     public static float GetEnemySpeed()
     {
         return enemySpeed;
+    }
+
+    public static float GetCurveSmooth()
+    {
+        return curveSmooth;
     }
 }
