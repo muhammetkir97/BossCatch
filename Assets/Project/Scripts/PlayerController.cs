@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 lastSideSpeed = Vector3.zero;
 
-    private int totalGun = 5;
+    private int totalGun = 1;
 
 
     void Awake()
@@ -228,6 +228,12 @@ public class PlayerController : MonoBehaviour
             }
             lastBulletStackCount = availableStack;
         }
+    }
+
+    public void GainGun()
+    {
+        totalGun++;
+        SetGun();
     }
 
 

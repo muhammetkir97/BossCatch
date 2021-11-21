@@ -19,6 +19,7 @@ public static class Globals
     private static int maxBonusBullet = 6;
     private static int enemyHealth = 3;
     private static float enemySpawnRate = 3;
+    private static int weaponKillCount = 5;
 
 
     public static float GetPlayerSpeed()
@@ -94,5 +95,10 @@ public static class Globals
     public static float GetEnemySpawnRate()
     {
         return enemySpawnRate;
+    }
+
+    public static float GetWeaponKillCount()
+    {
+        return weaponKillCount;
     }
 }

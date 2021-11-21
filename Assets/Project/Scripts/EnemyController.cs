@@ -95,6 +95,7 @@ public class EnemyController : MonoBehaviour
         GameObject cloneParticle = Instantiate(explosionParticle,transform.position,Quaternion.identity);
         cloneParticle.GetComponent<ParticleSystem>().Play();
         iTween.ScaleTo(gameObject,Vector3.zero,0.3f);
+        GameSystem.Instance.EnemyKilled();
     }
 
     void TargetDetection()

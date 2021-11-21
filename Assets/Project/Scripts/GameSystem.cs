@@ -18,6 +18,9 @@ public class GameSystem : MonoBehaviour
     float curveY = 0;
     float targetCurveY = 0;
 
+    float killedEnemyCount = 0;
+    int currentWeaponCount = 1;
+
 
     private void Awake()
     {
@@ -125,6 +128,18 @@ public class GameSystem : MonoBehaviour
     public GameObject GetPlayerObject()
     {
         return playerObject;
+    }
+
+    public void EnemyKilled()
+    {
+        killedEnemyCount++;
+
+        if(((killedEnemyCount - (killedEnemyCount % Globals.GetWeaponKillCount())) / Globals.GetWeaponKillCount()) + 1 != currentWeaponCount)
+        {
+            currentWeaponCount++;
+            if(currentWeaponCount < 6)  playerObject.GetComponent<PlayerController>().GainGun();
+            
+        }
     }
 
     
